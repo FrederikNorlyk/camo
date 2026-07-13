@@ -27,6 +27,6 @@ jobs:
       - name: Upload Binaries
         uses: softprops/action-gh-release@v3
         with:
-          files: ./target/release/theme_picker
+          files: ./target/release/camo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -19,7 +19,7 @@ impl Paths {
     }
 
     /// Gets the path to the directory containing the theme picker's configuration files, located at
-    /// `~/.local/share/norlyk-themes/`.
+    /// `~/.local/share/camo/`.
     ///
     /// # Errors
     ///
@@ -27,11 +27,11 @@ impl Paths {
     ///
     pub fn config_path() -> Result<PathBuf, String> {
         let home_path = Self::user_home()?;
-        Ok(home_path.join(".local/share/norlyk-themes"))
+        Ok(home_path.join(".local/share/camo"))
     }
 
     /// Gets the path to the directory containing the currently selected theme.
-    /// `~/.local/share/norlyk-themes/current/`.
+    /// `~/.local/share/camo/current/`.
     ///
     /// # Errors
     ///

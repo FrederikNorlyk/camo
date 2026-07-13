@@ -1,6 +1,6 @@
-# Rust Theme Picker TUI
+# Camo
 
-Terminal-based theme picker written in Rust.
+A terminal-based theme picker written in Rust.
 
 <img src="screenshot.jpg" alt="Screenshot of the app">
 
@@ -20,7 +20,7 @@ To use the application, you must have the following installed on your system:
 
 ### Quick Install
 ```bash
-curl -sSL https://raw.githubusercontent.com/FrederikNorlyk/rust-theme-picker-tui/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/FrederikNorlyk/camo/main/install.sh | bash
 ```
 
 ### Manual installation
@@ -28,12 +28,12 @@ curl -sSL https://raw.githubusercontent.com/FrederikNorlyk/rust-theme-picker-tui
 You must have Rust development tools installed on your system.
 
 ``` bash
-cargo install --git https://github.com/FrederikNorlyk/rust-theme-picker-tui
+cargo install --git https://github.com/FrederikNorlyk/camo
 ```
 
 ## Implementation
 
-The themes are defined in `~/.local/share/norlyk-themes/`.
+The themes are defined in `~/.local/share/camo/`.
 
 Each theme must include a use statement for the `system-variables.scss` and define the following variables:
 
@@ -65,7 +65,7 @@ It then creates a symbolic link between the selected theme and `current/theme-va
 ```mermaid
 flowchart TD
     classDef symlink stroke-dasharray: 5 5
-    config_dir["`**~/.local/share/norlyk-themes/**`"]
+    config_dir["`**~/.local/share/camo/**`"]
     config_dir --> system_variables["system-variables.scss"]
     config_dir --> kanagawa["`**kanagawa/**`"]
     kanagawa --> kanagawa_theme["theme-variables.scss"]
@@ -91,7 +91,7 @@ window {
 ```
 
 With the current theme in place the theme picker now compiles `~/.config/waybar/style.css` using
-`~/.local/share/norlyk-themes/waybar-style.scss`.
+`~/.local/share/camo/waybar-style.scss`.
 
 ## Hyprland
 
@@ -122,7 +122,7 @@ The theme picker also supports the `@use` statements from scss, which is why the
 
 ```mermaid
 flowchart TD
-    config_dir["`**~/.local/share/norlyk-themes/**`"]
+    config_dir["`**~/.local/share/camo/**`"]
     config_dir --> system_variables["system-variables.scss"]
     config_dir --> kanagawa["`**kanagawa/**`"]
     kanagawa --> kanagawa_theme["theme-variables.scss"]
