@@ -136,7 +136,7 @@ impl TerminalUserInterface {
 
 impl Widget for &mut TerminalUserInterface {
     fn render(self, area: Rect, buf: &mut Buffer) {
-        let title = Line::from(" Theme Picker ");
+        let title = Line::from(" Camo ");
 
         let instructions = Line::from(vec![
             " Use ".into(),
