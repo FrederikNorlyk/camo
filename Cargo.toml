@@ -8,14 +8,6 @@ categories = ["config"]
 version = "1.7.0"
 edition = "2024"
 
-[[bin]]
-name = "theme_picker"
-path = "src/main.rs"
-
-[[bin]]
-name = "norlyk"
-path = "src/bin/cli.rs"
-
 [lints.clippy]
 all = "deny"           # Fail the build instead of warn
 pedantic = "deny"      # Pedantic lints also fail

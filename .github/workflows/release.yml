@@ -16,18 +16,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Build Release
         run: cargo build --release
 
       - name: Upload Binaries
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
-          files: |
-            ./target/release/theme_picker
-            ./target/release/norlyk
+          files: ./target/release/theme_picker
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
