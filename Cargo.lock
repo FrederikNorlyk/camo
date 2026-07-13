@@ -159,7 +159,7 @@ checksum = "1fbdf580320f38b612e485521afda1ee26d10cc9884efaaa750d383e13e3c5f4"
 
 [[package]]
 name = "camo"
-version = "1.7.0"
+version = "1.8.0"
 dependencies = [
  "clap",
  "crossterm",
