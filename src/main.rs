@@ -1,8 +1,8 @@
+use camo::cli::commands::{Cli, Command, WallpaperAction};
+use camo::services::theme_service::ThemeService;
+use camo::tui::terminal_user_interface::TerminalUserInterface;
 use clap::Parser;
 use std::io;
-use theme_picker::cli::commands::{Cli, Command, WallpaperAction};
-use theme_picker::services::theme_service::ThemeService;
-use theme_picker::tui::terminal_user_interface::TerminalUserInterface;
 
 fn main() -> io::Result<()> {
     let cli = Cli::parse();

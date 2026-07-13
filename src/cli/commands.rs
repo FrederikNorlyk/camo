@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(name = "norlyk", about = "Norlyk settings manager", version)]
+#[command(name = "camo", about = "Camo Theme Picker", version)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Option<Command>,
