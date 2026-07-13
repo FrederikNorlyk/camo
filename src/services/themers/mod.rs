@@ -2,6 +2,7 @@ pub mod btop;
 pub mod gtk;
 pub mod hypr;
 pub mod kitty;
+pub mod noctalia;
 pub mod nvim;
 pub mod waybar;
 

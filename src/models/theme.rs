@@ -17,6 +17,7 @@ pub struct Theme {
     pub btop_theme_path: Option<PathBuf>,
     pub color_scheme: ColorScheme,
     pub gtk_theme: String,
+    pub noctalia_theme: String,
 }
 
 impl Theme {
@@ -28,6 +29,7 @@ impl Theme {
         btop_theme_path: Option<PathBuf>,
         color_scheme: ColorScheme,
         gtk_theme: &str,
+        noctalia_theme: &str,
     ) -> Self {
         Self {
             name: name.to_string(),
@@ -36,6 +38,7 @@ impl Theme {
             btop_theme_path,
             color_scheme,
             gtk_theme: gtk_theme.to_string(),
+            noctalia_theme: noctalia_theme.to_string(),
         }
     }
 

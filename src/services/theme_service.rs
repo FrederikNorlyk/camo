@@ -3,6 +3,7 @@ use crate::services::themers::btop::BtopThemer;
 use crate::services::themers::gtk::GtkThemer;
 use crate::services::themers::hypr::HyprThemer;
 use crate::services::themers::kitty::KittyThemer;
+use crate::services::themers::noctalia::NoctaliaThemer;
 use crate::services::themers::nvim::NvimThemer;
 use crate::services::themers::waybar::WaybarThemer;
 use crate::services::themers::{ThemeContext, Themer};
@@ -25,6 +26,7 @@ struct RawThemeMetadata {
     btop_theme_path: Option<String>,
     color_scheme: ColorScheme,
     gtk_theme: String,
+    noctalia_theme: String,
 }
 
 pub struct ThemeService;
@@ -72,6 +74,7 @@ impl ThemeService {
             Box::new(BtopThemer),
             Box::new(GtkThemer),
             Box::new(NvimThemer),
+            Box::new(NoctaliaThemer),
         ]
     }
 
@@ -107,6 +110,7 @@ impl ThemeService {
                     meta.btop_theme_path.map(PathBuf::from),
                     meta.color_scheme,
                     meta.gtk_theme.as_str(),
+                    meta.noctalia_theme.as_str(),
                 ))
             })
             .collect();
