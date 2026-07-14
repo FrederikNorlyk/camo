@@ -1,3 +1,4 @@
+use crate::models::theme::ColorScheme;
 use crate::services::themers::{ThemeContext, Themer};
 use std::process::Command;
 
@@ -12,6 +13,18 @@ impl Themer for NoctaliaThemer {
             .arg("color-scheme-set")
             .arg("builtin")
             .arg(noctalia_theme)
+            .output()
+            .map_err(|e| format!("Failed to set Noctalia theme: {e}"))?;
+
+        let color_scheme = match context.theme.color_scheme {
+            ColorScheme::Light => "light",
+            ColorScheme::Dark => "dark",
+        };
+
+        Command::new("noctalia")
+            .arg("msg")
+            .arg("theme-mode-set")
+            .arg(color_scheme)
             .output()
             .map_err(|e| format!("Failed to set Noctalia theme: {e}"))?;
 
