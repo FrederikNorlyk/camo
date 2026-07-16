@@ -9,15 +9,11 @@ use crate::services::themers::waybar::WaybarThemer;
 use crate::services::themers::{ThemeContext, Themer};
 use crate::utils::paths::Paths;
 use crate::utils::symlink::Symlink;
-use rand::prelude::IndexedRandom;
 use regex::Regex;
 use serde::Deserialize;
 use std::fs;
-use std::io::Error;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::thread;
-use std::time::Duration;
 
 #[derive(Deserialize)]
 struct RawThemeMetadata {
@@ -54,7 +50,7 @@ impl ThemeService {
                 .map_err(|e| format!("Could not apply theme: {e}"))?;
         }
 
-        Self::change_wallpaper()?;
+        Self::change_wallpaper().map_err(|e| format!("Could not change wallpaper {e}"))?;
 
         Ok(())
     }
@@ -180,85 +176,17 @@ impl ThemeService {
     }
 
     /// Reloads the wallpaper by selecting a random image from the current theme's wallpaper directory
-    /// and setting it using hyprpaper.
     ///
     /// # Errors
     ///
     /// Returns an error if:
-    /// - The `HOME` environment variable is not set or inaccessible.
-    /// - The wallpaper directory cannot be read or contains no valid image files.
-    /// - The hyprctl command fails to execute or returns an error after multiple retry attempts.
-    pub fn change_wallpaper() -> Result<(), String> {
-        let wallpaper_dir_path = Paths::current_theme()?.join("wallpapers");
-        let wallpaper_file_path = Self::get_random_image_file(&wallpaper_dir_path)?;
+    /// - The noctalia wallpaper-random command fails
+    pub fn change_wallpaper() -> std::io::Result<()> {
+        Command::new("noctalia")
+            .arg("msg")
+            .arg("wallpaper-random")
+            .output()?;
 
-        let max_attempts = 5;
-        let mut error: Option<Error> = None;
-
-        let wallpaper_arg = format!(",{}", wallpaper_file_path.display());
-
-        for _ in 1..=max_attempts {
-            let output = Command::new("hyprctl")
-                .arg("hyprpaper")
-                .arg("wallpaper")
-                .arg(&wallpaper_arg)
-                .output();
-
-            match output {
-                Ok(result) => {
-                    let response = String::from_utf8_lossy(&result.stdout).trim().to_string();
-                    if response.is_empty() {
-                        return Ok(());
-                    }
-
-                    error = Some(Error::other(response));
-                }
-                Err(e) => error = Some(e),
-            }
-
-            thread::sleep(Duration::from_secs(1));
-        }
-
-        if let Some(error) = error {
-            return Err(format!("Failed to set wallpaper: {error}"));
-        }
-
-        Err("Unknown error".to_string())
-    }
-
-    fn get_random_image_file(path: &Path) -> Result<PathBuf, String> {
-        // Read all image files from the theme directory
-        let entries =
-            fs::read_dir(path).map_err(|e| format!("Failed to read theme directory: {e}"))?;
-
-        let image_files: Vec<PathBuf> = entries
-            .filter_map(|entry| {
-                let entry = entry.ok()?;
-                let path = entry.path();
-
-                // Check if it's a file with common image extensions
-                if path.is_file()
-                    && let Some(extension) = path.extension()
-                {
-                    let ext_str = extension.to_string_lossy().to_lowercase();
-                    if matches!(ext_str.as_str(), "png" | "jpg" | "jpeg" | "bmp") {
-                        return Some(path);
-                    }
-                }
-                None
-            })
-            .collect();
-
-        if image_files.is_empty() {
-            return Err("No image files found in theme directory".to_string());
-        }
-
-        // Select a random image
-        let mut rng = rand::rng();
-
-        image_files
-            .choose(&mut rng)
-            .cloned()
-            .ok_or_else(|| "Failed to select random image".to_string())
+        Ok(())
     }
 }
