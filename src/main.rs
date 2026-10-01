@@ -2,12 +2,14 @@ use camo::cli::commands::{Cli, Command, WallpaperAction};
 use camo::services::theme_service::ThemeService;
 use camo::tui::terminal_user_interface::TerminalUserInterface;
 use clap::Parser;
+use crossterm::{execute, terminal::SetTitle};
 use std::io;
 
 fn main() -> io::Result<()> {
     let cli = Cli::parse();
 
     let Some(command) = cli.command else {
+        execute!(io::stdout(), SetTitle("Camo"))?;
         ratatui::run(|terminal| TerminalUserInterface::default().run(terminal))?;
         return Ok(());
     };
